@@ -49,13 +49,30 @@ export default function CouponsMenu() {
         <ChevronIcon open={open} />
       </button>
 
+      <style>{`
+        .coupons-panel {
+          position: absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          width: min(360px, calc(100vw - 32px));
+        }
+        @media (max-width: 639px) {
+          .coupons-panel {
+            position: fixed;
+            left: 16px;
+            right: 16px;
+            top: 84px;
+            width: auto;
+          }
+        }
+      `}</style>
+
       {open && (
         <div
           role="menu"
           className="coupons-panel"
           style={{
-            position: 'absolute', top: 'calc(100% + 10px)', right: 0,
-            width: 'min(360px, calc(100vw - 32px))', background: 'var(--branco)',
+            background: 'var(--branco)',
             borderRadius: 'var(--raio-lg)', boxShadow: '0 16px 40px rgba(2,78,134,0.22)',
             padding: 'var(--md)', zIndex: 60,
           }}
