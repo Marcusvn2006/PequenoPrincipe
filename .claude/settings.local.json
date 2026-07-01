@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(foreach \\($cmd in @\\(\"ngrok\",\"cloudflared\",\"vercel\",\"netlify\"\\)\\) { $found = Get-Command $cmd -ErrorAction SilentlyContinue; if \\($found\\) { Write-Host \"$cmd : FOUND at $\\($found.Source\\)\" } else { Write-Host \"$cmd : not found\" } })",
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell(Stop-Process -Id 21924 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(netstat -ano)",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__get_page_text",
+      "mcp__Claude_in_Chrome__find",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__javascript_tool"
+    ]
+  }
+}
