@@ -61,7 +61,7 @@ export default function FaqSection() {
               type="text"
               value={busca}
               onChange={handleBusca}
-              placeholder="Buscar uma pergunta... (ex: empresa, FIA, taxa)"
+              placeholder="Buscar uma pergunta... (ex: empresa, CAC, fundo)"
               style={{
                 width: '100%', height: 52, borderRadius: 'var(--raio-pill)',
                 border: '1.5px solid var(--borda-campo)', padding: '0 var(--md) 0 50px',

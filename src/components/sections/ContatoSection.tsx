@@ -7,12 +7,16 @@ export default function ContatoSection() {
       <div className="container contato-grid">
         <div className="reveal" style={{ paddingBottom: 'var(--xxl)' }}>
           <h2 style={{ color: 'var(--azul)', fontSize: 'clamp(1.8rem, 2.5vw, 2.25rem)', marginBottom: 'var(--md)' }}>
-            Ficou com alguma dúvida?
+            Ainda ficou com alguma dúvida?
           </h2>
-          <p>Não se preocupe, estamos aqui para te auxiliar! Fale diretamente com a nossa equipe.</p>
+          <p>
+            Cada município pode possuir procedimentos próprios para aprovação de projetos, emissão
+            de CAC e vinculação de recursos. Fale com nossa equipe para entender o caminho adequado
+            para sua destinação, empresa ou organização.
+          </p>
 
           <a
-            href="https://wa.me/554121083886"
+            href="https://wa.me/5514988388888"
             target="_blank"
             rel="noopener noreferrer"
             className="btn"
@@ -26,11 +30,14 @@ export default function ContatoSection() {
           </a>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--md)' }}>
-            <ContactLine href="mailto:doepequenoprincipe@hpp.org.br" icon={<EmailIcon />}>
-              doepequenoprincipe@hpp.org.br
+            <ContactLine href="mailto:contato@2doe4.com.br" icon={<EmailIcon />}>
+              contato@2doe4.com.br
             </ContactLine>
-            <ContactLine href="tel:+554121083886" icon={<PhoneIcon />}>
-              (41) 2108-3886
+            <ContactLine href="mailto:qg@2doe4.com.br" icon={<EmailIcon />}>
+              qg@2doe4.com.br
+            </ContactLine>
+            <ContactLine href="tel:+551441033444" icon={<PhoneIcon />}>
+              (14) 4103-3444
             </ContactLine>
           </div>
         </div>
@@ -39,7 +46,7 @@ export default function ContatoSection() {
           <CrownBadge top={6} left={-16} />
           <img
             src="/assets/foto-contato.webp"
-            alt="Criança fazendo coração com as mãos em ambiente hospitalar"
+            alt="Pessoa demonstrando cuidado e acolhimento"
             style={{
               width: '100%', height: 380,
               borderRadius: '24px 24px 0 0',

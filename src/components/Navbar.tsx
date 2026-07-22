@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import CouponsMenu from './CouponsMenu'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -76,9 +75,10 @@ export default function Navbar() {
         }
         .navbar-links a:not(.nav-cta) {
           font-weight: 700;
+          font-size: 0.8125rem;
           text-decoration: none;
           color: var(--azul-profundo);
-          padding: 10px 14px;
+          padding: 10px 8px;
           border-radius: var(--raio-pill);
           transition: background 150ms, color 150ms;
         }
@@ -98,7 +98,7 @@ export default function Navbar() {
         .nav-cta:hover { background: #F0C600 !important; transform: translateY(-2px); box-shadow: 0 8px 18px rgba(255, 210, 0, 0.55); }
 
         .nav-burger { display: none; }
-        @media (max-width: 639px) {
+        @media (max-width: 1180px) {
           .navbar-top { display: none; }
           .nav-burger { display: flex !important; }
           .navbar-links {
@@ -137,15 +137,15 @@ export default function Navbar() {
         >
           <div className="container">
             <div className="navbar-top-linhas">
-              <a href="mailto:doepequenoprincipe@hpp.org.br">
-                <EmailIcon /> doepequenoprincipe@hpp.org.br
+              <a href="mailto:contato@2doe4.com.br">
+                <EmailIcon /> contato@2doe4.com.br
               </a>
-              <a href="tel:+554121083886">
-                <PhoneIcon /> (41) 2108-3886
+              <a href="tel:+551441033444">
+                <PhoneIcon /> (14) 4103-3444
               </a>
             </div>
             <div className="navbar-top-social">
-              <a href="https://wa.me/554121083886" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/5514988388888" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
                 <WhatsIcon size={14} color="#fff" />
               </a>
             </div>
@@ -157,10 +157,6 @@ export default function Navbar() {
             <a href="#inicio" aria-label="Pequeno Príncipe — início" style={{ display: 'flex', flexShrink: 0 }}>
               <img src="/assets/logo-hpp.webp" alt="Complexo Pequeno Príncipe" style={{ height: 44, width: 'auto' }} />
             </a>
-
-            <div style={{ marginLeft: 'auto' }}>
-              <CouponsMenu />
-            </div>
 
             <button
               className="nav-burger"
@@ -183,12 +179,16 @@ export default function Navbar() {
               aria-label="Navegação principal"
               onClick={(e) => { if ((e.target as HTMLElement).closest('a')) setMenuOpen(false) }}
             >
-              <a href="#como-doar">Como doar</a>
-              <a href="#causas">Causas 2doe4</a>
-              <a href="#faq">FAQ</a>
+              <a href="#como-funciona">Como funciona</a>
+              <a href="#destinacao-vinculada">Destinação vinculada</a>
+              <a href="#fundos">Fundos</a>
+              <a href="#entidades">Apresente seu projeto</a>
+              <a href="#empresas">Para empresas</a>
+              <a href="#canais">Nossos canais</a>
+              <a href="#faq">Dúvidas</a>
               <a href="#">Privacidade</a>
-              <a className="nav-cta" href="#enviar-darf">
-                <CrownIcon /> Enviar DARF
+              <a className="nav-cta" href="#formulario">
+                <CrownIcon /> Quero destinar
               </a>
             </nav>
           </div>

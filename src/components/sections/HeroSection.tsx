@@ -37,7 +37,7 @@ export default function HeroSection() {
               marginBottom: 'var(--sm)',
             }}
           >
-            DOE SEU IMPOSTO DE RENDA PARA O HOSPITAL PEQUENO PRÍNCIPE E APOIE AS CAUSAS 2DOE4.
+            DESTINAÇÃO VINCULADA VIA CAC
           </h1>
 
           <h2
@@ -50,9 +50,9 @@ export default function HeroSection() {
               position: 'relative',
             }}
           >
-            NÃO É NENHUM{' '}
-            <span style={{ position: 'relative', whiteSpace: 'nowrap' }}>
-              BICHO DE 7 CABEÇAS.
+            SEU IMPOSTO DE RENDA PODE FORTALECER UM{' '}
+            <span style={{ position: 'relative', display: 'inline' }}>
+              PROJETO QUE VOCÊ CONHECE.
               <svg
                 viewBox="0 0 200 14"
                 preserveAspectRatio="none"
@@ -72,9 +72,10 @@ export default function HeroSection() {
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--sm)', padding: 0, margin: '0 0 var(--lg)' }}>
             {[
-              'São apenas 3 passos',
-              'Sem custo, direto na declaração',
-              'Até 3% do IR - tendo imposto a pagar ou a restituir',
+              'Não aumenta o valor do seu Imposto de Renda',
+              'Apoia projetos aprovados pelos Conselhos de Direitos',
+              'Aproxima o contribuinte do impacto gerado',
+              'Conta com apoio na orientação e no acompanhamento',
             ].map((text) => (
               <li
                 key={text}
@@ -93,16 +94,23 @@ export default function HeroSection() {
           </ul>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--md)' }}>
-            <a className="btn btn-secondary hero-action" href="#como-doar">Ver o passo a passo</a>
+            <a className="btn btn-secondary hero-action" href="#formulario">Quero fazer uma destinação</a>
             <a
               className="btn btn-primary hero-action"
-              href="https://2doe4.com.br/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#formulario"
             >
-              Conhecer o Ecossistema 2doe4
+              Quero apresentar um projeto
             </a>
           </div>
+          <p className="hero-action" style={{ marginTop: 'var(--lg)', maxWidth: 650, fontWeight: 700, color: 'var(--azul-profundo)' }}>
+            A BASEDOBEM aproxima pessoas, empresas e entidades de projetos sociais aprovados pelos
+            Conselhos de Direitos da Criança e do Adolescente e da Pessoa Idosa. Por meio do CAC,
+            sua destinação pode ser vinculada a um projeto específico, com mais identificação,
+            rastreabilidade e possibilidade de acompanhamento.
+          </p>
+          <p className="hero-action" style={{ marginTop: 'var(--sm)', maxWidth: 650, color: 'var(--azul-profundo)' }}>
+            A lei permite destinar. A BASEDOBEM ajuda essa escolha a chegar mais perto do impacto.
+          </p>
         </div>
 
       </div>
@@ -118,13 +126,13 @@ export default function HeroSection() {
         }
         .hero-grid {
           display: grid;
-          grid-template-columns: 0.72fr 1.28fr;
+          grid-template-columns: minmax(0, 0.95fr) minmax(180px, 1.05fr);
           gap: var(--xl);
           align-items: center;
           padding-top: var(--xl);
           padding-bottom: var(--xxl);
         }
-        .hero-offset { margin-left: 200px; }
+        .hero-offset { margin-left: 120px; }
         @media (max-width: 1280px) {
           .hero-offset { margin-left: 80px; }
         }

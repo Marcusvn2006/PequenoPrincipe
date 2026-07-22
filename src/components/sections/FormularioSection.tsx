@@ -1,262 +1,224 @@
-import { useState, type FormEvent, type ChangeEvent } from 'react'
-import UploadZone from '../UploadZone'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 
-type FieldKey =
-  | 'nome' | 'cpf' | 'email' | 'telefone'
-  | 'rua' | 'cep' | 'numero' | 'bairro'
-  | 'complemento' | 'cidade' | 'estado' | 'como'
+type FieldKey = 'nome' | 'documento' | 'email' | 'telefone' | 'cidade' | 'estado' |
+  'interesse' | 'publico' | 'canal' | 'mensagem'
 
-const CAMPOS_OBRIGATORIOS: FieldKey[] = [
-  'nome', 'cpf', 'email', 'telefone',
-  'rua', 'cep', 'numero', 'bairro',
-  'cidade', 'estado', 'como',
+const INTERESSES = [
+  'Quero destinar como pessoa física',
+  'Quero destinar como empresa',
+  'Quero conhecer um projeto com CAC',
+  'Quero apresentar um projeto',
+  'Quero ser uma empresa parceira',
+  'Quero participar como voluntário',
+  'Quero conhecer os canais',
+  'Outro assunto',
 ]
 
-const CAMPOS: { key: FieldKey; label: string; type?: string; placeholder: string; inputMode?: string; span?: boolean; obrigatorio?: boolean }[] = [
-  { key: 'nome', label: 'NOME COMPLETO', type: 'text', placeholder: 'Nome completo', obrigatorio: true },
-  { key: 'cpf', label: 'CPF', type: 'text', placeholder: 'CPF', inputMode: 'numeric', obrigatorio: true },
-  { key: 'email', label: 'E-MAIL', type: 'email', placeholder: 'E-mail', obrigatorio: true },
-  { key: 'telefone', label: 'TELEFONE', type: 'tel', placeholder: 'Telefone', obrigatorio: true },
-  { key: 'rua', label: 'RUA', type: 'text', placeholder: 'Rua', obrigatorio: true },
-  { key: 'cep', label: 'CEP', type: 'text', placeholder: 'CEP', inputMode: 'numeric', obrigatorio: true },
-  { key: 'numero', label: 'NÚMERO', type: 'text', placeholder: 'Número', inputMode: 'numeric', obrigatorio: true },
-  { key: 'bairro', label: 'BAIRRO', type: 'text', placeholder: 'Bairro', obrigatorio: true },
-  { key: 'complemento', label: 'COMPLEMENTO', type: 'text', placeholder: 'Complemento', obrigatorio: false },
-  { key: 'cidade', label: 'CIDADE', type: 'text', placeholder: 'Cidade', obrigatorio: true },
-  { key: 'estado', label: 'ESTADO', type: 'text', placeholder: 'Estado', obrigatorio: true },
-]
+const PUBLICOS = ['Crianças e adolescentes', 'Pessoas idosas', 'Os dois', 'Ainda não sei']
+const CANAIS = ['BASEDOBEM', '2DOE4', 'DOABEM', 'GPTDOABEM', 'Equobiel', 'CuradoaBem', 'Educação']
 
-const COMO_SOUBE = [
-  'Redes sociais', 'Indicação de amigo', 'E-mail marketing',
-  'Televisão', 'Rádio', 'Jornal / Revista', 'Site do hospital', 'Outro',
-]
+const INITIAL_VALUES: Record<FieldKey, string> = {
+  nome: '', documento: '', email: '', telefone: '', cidade: '', estado: '',
+  interesse: '', publico: '', canal: 'BASEDOBEM', mensagem: '',
+}
 
-const INITIAL_VALUES = Object.fromEntries(
-  [...CAMPOS.map(c => c.key), 'como'].map(k => [k, ''])
-) as Record<FieldKey, string>
+const REQUIRED: FieldKey[] = ['nome', 'documento', 'email', 'telefone', 'cidade', 'estado', 'interesse', 'publico', 'mensagem']
 
-const INITIAL_ERRORS = Object.fromEntries(
-  [...CAMPOS.map(c => c.key), 'como'].map(k => [k, false])
-) as Record<FieldKey, boolean>
-
-function inputStyle(err: boolean): React.CSSProperties {
+function fieldStyle(error: boolean): React.CSSProperties {
   return {
-    height: 52,
-    border: `1.5px solid ${err ? 'var(--accent)' : 'var(--borda-campo)'}`,
-    borderRadius: 'var(--raio-md)',
-    padding: '0 var(--md)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '1rem',
-    color: 'var(--tinta)',
-    background: 'var(--branco)',
-    width: '100%',
-    outline: 'none',
-    transition: 'border-color 150ms, box-shadow 150ms',
+    width: '100%', minHeight: 52, borderRadius: 'var(--raio-md)',
+    border: `1.5px solid ${error ? 'var(--accent)' : 'var(--borda-campo)'}`,
+    padding: '12px var(--md)', fontFamily: 'var(--font-body)', fontSize: '1rem',
+    color: 'var(--tinta)', background: 'var(--branco)', outline: 'none',
   }
 }
 
 export default function FormularioSection() {
-  const [values, setValues] = useState<Record<FieldKey, string>>(INITIAL_VALUES)
-  const [errors, setErrors] = useState<Record<FieldKey, boolean>>(INITIAL_ERRORS)
-  const [autorizo, setAutorizo] = useState(false)
-  const [autorizoError, setAutorizoError] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const [values, setValues] = useState(INITIAL_VALUES)
+  const [errors, setErrors] = useState<Partial<Record<FieldKey, boolean>>>({})
+  const [consent, setConsent] = useState(false)
+  const [consentError, setConsentError] = useState(false)
+  const [mailReady, setMailReady] = useState(false)
 
-  const handleChange = (key: FieldKey) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setValues(v => ({ ...v, [key]: e.target.value }))
-    if (e.target.value.trim()) setErrors(er => ({ ...er, [key]: false }))
+  const change = (key: FieldKey) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const value = event.target.value
+    setValues(current => ({ ...current, [key]: value }))
+    if (value.trim()) setErrors(current => ({ ...current, [key]: false }))
   }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    const newErrors = { ...INITIAL_ERRORS }
-    let ok = true
-    CAMPOS_OBRIGATORIOS.forEach(k => {
-      if (!values[k].trim()) { newErrors[k] = true; ok = false }
-    })
-    setErrors(newErrors)
-    setAutorizoError(!autorizo)
-    if (!autorizo) ok = false
-    setSubmitted(ok)
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const nextErrors: Partial<Record<FieldKey, boolean>> = {}
+    REQUIRED.forEach(key => { if (!values[key].trim()) nextErrors[key] = true })
+    setErrors(nextErrors)
+    setConsentError(!consent)
+    if (Object.keys(nextErrors).length || !consent) return
+
+    const subject = `Contato BASEDOBEM — ${values.interesse}`
+    const body = [
+      `Nome: ${values.nome}`,
+      `CPF ou CNPJ: ${values.documento}`,
+      `E-mail: ${values.email}`,
+      `Telefone: ${values.telefone}`,
+      `Cidade/Estado: ${values.cidade} / ${values.estado}`,
+      `Interesse: ${values.interesse}`,
+      `Público ou fundo de interesse: ${values.publico}`,
+      `Canal de origem: ${values.canal}`,
+      '',
+      'Mensagem:',
+      values.mensagem,
+    ].join('\n')
+
+    setMailReady(true)
+    window.location.href = `mailto:contato@2doe4.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
+
+  const input = (key: FieldKey, label: string, type = 'text', inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']) => (
+    <Field label={label} htmlFor={`f-${key}`} required error={errors[key]}>
+      <input
+        id={`f-${key}`}
+        type={type}
+        inputMode={inputMode}
+        value={values[key]}
+        onChange={change(key)}
+        style={fieldStyle(Boolean(errors[key]))}
+      />
+    </Field>
+  )
 
   return (
-    <section style={{ background: 'var(--branco)', padding: 'var(--xxl) 0' }}>
+    <section id="formulario" style={{ background: 'var(--branco)', padding: 'var(--xxl) 0' }}>
       <div className="container">
-        <h2 className="reveal" style={{ color: 'var(--azul)', fontSize: 'clamp(1.8rem, 2.5vw, 2.25rem)', marginBottom: 'var(--sm)' }}>
-          Envie seu DARF
-        </h2>
-        <p className="reveal" style={{ maxWidth: 680, marginBottom: 'var(--lg)' }}>
-          Preencha seus dados, anexe o DARF de doação e o comprovante de pagamento.
+        <span className="section-eyebrow reveal">Formulário principal</span>
+        <h2 className="section-title reveal">Como você quer fazer o bem?</h2>
+        <p className="section-intro reveal">
+          Preencha seus dados e selecione como deseja participar. Nossa equipe analisará sua
+          solicitação e indicará o caminho adequado.
         </p>
 
-        <span id="enviar-darf" style={{ position: 'relative', top: -120 }} aria-hidden="true" />
-
-        <form
-          id="form-darf"
-          onSubmit={handleSubmit}
-          noValidate
-          style={{
-            background: 'var(--branco)', borderRadius: 'var(--raio-lg)',
-            boxShadow: '0 16px 44px rgba(2,78,134,0.14)',
-            padding: 'var(--xl)', margin: '0 auto', maxWidth: 1040,
-          }}
-        >
+        <form id="form-contato" className="reveal" onSubmit={submit} noValidate>
           <div className="form-grid">
-            {CAMPOS.map(campo => (
-              <div key={campo.key} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sm)' }}>
-                <label htmlFor={`f-${campo.key}`} style={{
-                  fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.06em',
-                  textTransform: 'uppercase', color: 'var(--azul)',
-                }}>
-                  {campo.label}
-                  {campo.obrigatorio && <span style={{ color: 'var(--accent)' }}> *</span>}
-                </label>
-                <input
-                  id={`f-${campo.key}`}
-                  type={campo.type}
-                  inputMode={campo.inputMode as React.HTMLAttributes<HTMLInputElement>['inputMode']}
-                  placeholder={campo.placeholder}
-                  value={values[campo.key]}
-                  onChange={handleChange(campo.key)}
-                  style={inputStyle(errors[campo.key])}
-                />
-                {errors[campo.key] && (
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--accent)', fontWeight: 700, margin: 0 }}>
-                    Preencha este campo
-                  </p>
-                )}
-              </div>
-            ))}
+            {input('nome', 'Nome completo')}
+            {input('documento', 'CPF ou CNPJ', 'text', 'numeric')}
+            {input('email', 'E-mail', 'email', 'email')}
+            {input('telefone', 'Telefone', 'tel', 'tel')}
+            {input('cidade', 'Cidade')}
+            {input('estado', 'Estado')}
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sm)' }}>
-              <label htmlFor="f-como" style={{
-                fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.06em',
-                textTransform: 'uppercase', color: 'var(--azul)',
-              }}>
-                COMO FICOU SABENDO DA POSSIBILIDADE DE DOAÇÃO?
-                <span style={{ color: 'var(--accent)' }}> *</span>
-              </label>
-              <select
-                id="f-como"
-                value={values.como}
-                onChange={handleChange('como')}
-                style={inputStyle(errors.como)}
-              >
+            <Field label="Como deseja participar?" htmlFor="f-interesse" required error={errors.interesse}>
+              <select id="f-interesse" value={values.interesse} onChange={change('interesse')} style={fieldStyle(Boolean(errors.interesse))}>
                 <option value="">Selecione uma opção</option>
-                {COMO_SOUBE.map(o => <option key={o} value={o}>{o}</option>)}
+                {INTERESSES.map(item => <option key={item} value={item}>{item}</option>)}
               </select>
-              {errors.como && (
-                <p style={{ fontSize: '0.8125rem', color: 'var(--accent)', fontWeight: 700, margin: 0 }}>
-                  Selecione uma opção
-                </p>
-              )}
+            </Field>
+
+            <Field label="Fundo ou público de interesse" htmlFor="f-publico" required error={errors.publico}>
+              <select id="f-publico" value={values.publico} onChange={change('publico')} style={fieldStyle(Boolean(errors.publico))}>
+                <option value="">Selecione uma opção</option>
+                {PUBLICOS.map(item => <option key={item} value={item}>{item}</option>)}
+              </select>
+            </Field>
+
+            <Field label="De qual canal você chegou?" htmlFor="f-canal">
+              <select id="f-canal" value={values.canal} onChange={change('canal')} style={fieldStyle(false)}>
+                {CANAIS.map(item => <option key={item} value={item}>{item}</option>)}
+              </select>
+            </Field>
+
+            <div className="form-message">
+              <Field label="Mensagem" htmlFor="f-mensagem" required error={errors.mensagem}>
+                <textarea
+                  id="f-mensagem"
+                  value={values.mensagem}
+                  onChange={change('mensagem')}
+                  placeholder="Conte brevemente como podemos ajudar."
+                  rows={5}
+                  style={{ ...fieldStyle(Boolean(errors.mensagem)), resize: 'vertical' }}
+                />
+              </Field>
             </div>
           </div>
 
-          <div className="uploads-grid">
-            <UploadZone
-              label="DARF de doação"
-              tooltip="É o documento que comprova que você realizou o pagamento da doação ao Hospital Pequeno Príncipe."
-              icon={<DocIcon />}
+          <label className="consent-row">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={event => { setConsent(event.target.checked); if (event.target.checked) setConsentError(false) }}
             />
-            <UploadZone
-              label="Comprovante de pagamento"
-              tooltip="É o documento que seu banco emite após você efetuar o pagamento do DARF. Prova que o dinheiro foi transferido com sucesso."
-              icon={<CheckDocIcon />}
-            />
+            <span>
+              Autorizo o uso dos dados enviados para que a equipe da BASEDOBEM entre em contato e
+              preste as orientações solicitadas, conforme a <a href="#">Política de Privacidade</a>.
+            </span>
+          </label>
+          {consentError && <p className="field-error">É necessário autorizar o contato.</p>}
+
+          <div className="form-submit-row">
+            <p>
+              A solicitação será preparada para envio a <strong>contato@2doe4.com.br</strong>.
+            </p>
+            <button type="submit" className="btn btn-primary">Enviar solicitação</button>
           </div>
 
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            gap: 'var(--lg)', marginTop: 'var(--lg)', flexWrap: 'wrap',
-          }}>
-            <label style={{
-              display: 'flex', alignItems: 'flex-start', gap: 'var(--md)',
-              cursor: 'pointer', maxWidth: 560,
-            }}>
-              <div style={{ position: 'relative', flexShrink: 0 }}>
-                <input
-                  type="checkbox"
-                  checked={autorizo}
-                  onChange={e => { setAutorizo(e.target.checked); if (e.target.checked) setAutorizoError(false) }}
-                  style={{ position: 'absolute', opacity: 0, width: 28, height: 28, cursor: 'pointer' }}
-                />
-                <div style={{
-                  width: 28, height: 28, borderRadius: 8,
-                  border: `2px solid ${autorizoError ? 'var(--accent)' : 'var(--azul)'}`,
-                  background: autorizo ? 'var(--azul)' : 'var(--branco)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginTop: 2, transition: 'background 150ms',
-                }}>
-                  {autorizo && (
-                    <svg viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="2.5" style={{ width: 16, height: 16 }}>
-                      <path d="M3 8.5 L6.5 12 L13 4.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </div>
-              </div>
-              <span style={{ fontWeight: 700, marginTop: 4 }}>
-                Eu autorizo que minha doação seja direcionada aos projetos do Hospital Pequeno
-                Príncipe focados nas causas estruturais do 2doe4 (Saúde, Equoterapia, Esporte,
-                Meio Ambiente e Educação). <span style={{ color: 'var(--accent)' }}>*</span>
-              </span>
-            </label>
-
-            <button type="submit" className="btn btn-primary" style={{ minWidth: 200 }}>
-              Enviar
-            </button>
-          </div>
-
-          {submitted && (
-            <div style={{
-              marginTop: 'var(--md)', background: '#EAF7E6', color: '#1F6E13',
-              borderRadius: 'var(--raio-md)', padding: 'var(--md)', fontWeight: 700,
-            }}>
-              Tudo certo! Recebemos suas informações. Em breve nossa equipe entrará em contato.
+          {mailReady && (
+            <div className="form-status" role="status">
+              Seu aplicativo de e-mail foi aberto com a solicitação preenchida. Revise a mensagem
+              e confirme o envio para concluir o contato.
             </div>
           )}
         </form>
       </div>
 
       <style>{`
-        .form-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--lg);
+        #form-contato {
+          background: var(--branco); border-radius: var(--raio-lg);
+          box-shadow: 0 16px 44px rgba(2,78,134,.14); padding: var(--xl); max-width: 1040px;
         }
-        .uploads-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--lg);
-          margin-top: var(--lg);
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--lg); }
+        .form-field { display: flex; flex-direction: column; gap: var(--sm); }
+        .form-field label {
+          font-size: .75rem; font-weight: 800; letter-spacing: .06em;
+          text-transform: uppercase; color: var(--azul);
         }
-        @media (max-width: 639px) {
-          .form-grid, .uploads-grid { grid-template-columns: 1fr; }
-          #form-darf > div:last-of-type { flex-direction: column; align-items: stretch; }
-          #form-darf button[type="submit"] { width: 100%; }
+        .field-error { color: var(--accent); font-size: .8125rem; font-weight: 700; margin: 0; }
+        .form-message { grid-column: 2; grid-row: span 2; }
+        .consent-row { display: flex; align-items: flex-start; gap: var(--md); margin-top: var(--lg); cursor: pointer; }
+        .consent-row input { width: 24px; height: 24px; accent-color: var(--azul); flex: 0 0 auto; }
+        .form-submit-row {
+          display: flex; justify-content: space-between; align-items: center;
+          gap: var(--lg); margin-top: var(--lg); flex-wrap: wrap;
         }
+        .form-submit-row p { margin: 0; }
+        .form-status {
+          margin-top: var(--lg); padding: var(--md); border-radius: var(--raio-md);
+          background: #EAF7E6; color: #1F6E13; font-weight: 700;
+        }
+        @media (max-width: 767px) {
+          #form-contato { padding: var(--lg); }
+          .form-grid { grid-template-columns: 1fr; }
+          .form-message { grid-column: auto; grid-row: auto; }
+          .form-submit-row { align-items: stretch; flex-direction: column; }
+          .form-submit-row .btn { width: 100%; }
+        }
+        @media (max-width: 639px) { #form-contato { padding: var(--md); } }
       `}</style>
     </section>
   )
 }
 
-function DocIcon() {
+function Field({ label, htmlFor, required = false, error = false, children }: {
+  label: string
+  htmlFor: string
+  required?: boolean
+  error?: boolean
+  children: React.ReactNode
+}) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: '100%', height: '100%' }}>
-      <path d="M6 2h8l5 5v15H6z" strokeLinejoin="round" />
-      <path d="M14 2v5h5" strokeLinejoin="round" />
-      <path d="M9 13h7M9 17h7" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function CheckDocIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: '100%', height: '100%' }}>
-      <path d="M6 2h8l5 5v15H6z" strokeLinejoin="round" />
-      <path d="M14 2v5h5" strokeLinejoin="round" />
-      <path d="M9 14l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <div className="form-field">
+      <label htmlFor={htmlFor}>
+        {label}{required && <span style={{ color: 'var(--accent)' }}> *</span>}
+      </label>
+      {children}
+      {error && <p className="field-error">Preencha este campo.</p>}
+    </div>
   )
 }

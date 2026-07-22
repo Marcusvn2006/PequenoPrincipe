@@ -6,14 +6,23 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from './components/Navbar'
 import WaveDivider from './components/WaveDivider'
 import HeroSection from './components/sections/HeroSection'
-import HistoriaSection from './components/sections/HistoriaSection'
-import ContextoSection from './components/sections/ContextoSection'
-import ComoDoarSection from './components/sections/ComoDoarSection'
 import FormularioSection from './components/sections/FormularioSection'
-import ProjetoSection from './components/sections/ProjetoSection'
 import ContatoSection from './components/sections/ContatoSection'
 import FaqSection from './components/sections/FaqSection'
 import RodapeSection from './components/sections/RodapeSection'
+import {
+  CacSection,
+  CanaisSection,
+  ComparativoSection,
+  ComoDestinarSection,
+  EmpresasSection,
+  EntidadesSection,
+  FundosSection,
+  ImpactoSection,
+  PapelSection,
+  ProcessoSection,
+  SustentabilidadeSection,
+} from './components/sections/NovaCopySections'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -56,7 +65,7 @@ export default function App() {
           overlapPrevious
         />
 
-        <HistoriaSection />
+        <ComparativoSection />
 
         <WaveDivider
           bgColor="var(--ceu)"
@@ -64,7 +73,7 @@ export default function App() {
           path="M0,28 C260,60 520,4 760,20 C1000,36 1240,52 1440,20 L1440,60 L0,60 Z"
         />
 
-        <ContextoSection />
+        <CacSection />
 
         <WaveDivider
           bgColor="var(--branco)"
@@ -72,7 +81,22 @@ export default function App() {
           path="M0,36 C220,4 480,56 740,28 C1000,0 1240,44 1440,28 L1440,60 L0,60 Z"
         />
 
-        <ComoDoarSection />
+        <ProcessoSection />
+
+        <WaveDivider
+          bgColor="var(--amarelo)"
+          fillColor="#E8F3FB"
+          path="M0,30 C240,58 520,2 780,22 C1040,42 1260,50 1440,22 L1440,60 L0,60 Z"
+        />
+
+        <PapelSection />
+        <FundosSection />
+        <EmpresasSection />
+        <EntidadesSection />
+        <CanaisSection />
+        <SustentabilidadeSection />
+        <ImpactoSection />
+        <ComoDestinarSection />
 
         <WaveDivider
           bgColor="var(--amarelo)"
@@ -81,14 +105,6 @@ export default function App() {
         />
 
         <FormularioSection />
-
-        <WaveDivider
-          bgColor="var(--branco)"
-          fillColor="#FFFFFF"
-          path="M0,30 C240,58 520,2 780,22 C1040,42 1260,50 1440,22 L1440,60 L0,60 Z"
-        />
-
-        <ProjetoSection />
 
         <WaveDivider
           bgColor="var(--branco)"

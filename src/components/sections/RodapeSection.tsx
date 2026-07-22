@@ -12,8 +12,8 @@ export default function RodapeSection() {
             <img src="/assets/logo-hpp.webp" alt="Complexo Pequeno Príncipe" style={{ height: 36, width: 'auto' }} />
           </div>
           <p style={{ color: 'rgba(255,255,255,0.75)', maxWidth: 280, margin: 0 }}>
-            Doe seu Imposto de Renda e ajude o maior hospital pediátrico do Brasil e os voluntários
-            do movimento 2doe4 a continuarem transformando vidas.
+            A BASEDOBEM conecta contribuintes, empresas, entidades e canais para fortalecer projetos
+            dedicados a crianças, adolescentes e pessoas idosas.
           </p>
         </div>
 
@@ -22,10 +22,13 @@ export default function RodapeSection() {
             Links rápidos
           </h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <li><a href="#contato" className="rodape-link">Contato</a></li>
-            <li><a href="#como-doar" className="rodape-link">Como doar</a></li>
-            <li><a href="#causas" className="rodape-link">Causas 2doe4</a></li>
-            <li><a href="#faq" className="rodape-link">FAQ</a></li>
+            <li><a href="#como-funciona" className="rodape-link">Como funciona</a></li>
+            <li><a href="#cac" className="rodape-link">O que é CAC</a></li>
+            <li><a href="#fundos" className="rodape-link">Fundos apoiados</a></li>
+            <li><a href="#entidades" className="rodape-link">Apresente seu projeto</a></li>
+            <li><a href="#empresas" className="rodape-link">Empresas</a></li>
+            <li><a href="#canais" className="rodape-link">Nossos canais</a></li>
+            <li><a href="#faq" className="rodape-link">Perguntas frequentes</a></li>
             <li><a href="#" className="rodape-link">Privacidade</a></li>
           </ul>
         </div>
@@ -35,33 +38,33 @@ export default function RodapeSection() {
             Contato
           </h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <li><a href="mailto:doepequenoprincipe@hpp.org.br" className="rodape-link">doepequenoprincipe@hpp.org.br</a></li>
-            <li><a href="tel:+554121083886" className="rodape-link">(41) 2108-3886</a></li>
+            <li><a href="mailto:contato@2doe4.com.br" className="rodape-link">contato@2doe4.com.br</a></li>
+            <li><a href="mailto:qg@2doe4.com.br" className="rodape-link">qg@2doe4.com.br</a></li>
+            <li><a href="tel:+551441033444" className="rodape-link">(14) 4103-3444</a></li>
+            <li><a href="https://wa.me/5514988388888" target="_blank" rel="noopener noreferrer" className="rodape-link">WhatsApp: (14) 98838-8888</a></li>
           </ul>
         </div>
 
         <div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: 'var(--md)', color: 'var(--amarelo)' }}>
-            Saiba mais
+            Participe
           </h3>
           <p style={{ color: 'rgba(255,255,255,0.75)', margin: '0 0 var(--md)' }}>
-            <a
-              href="https://pequenoprincipe.org.br/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rodape-link"
-            >
-              Site oficial do Hospital Pequeno Príncipe →
-            </a>
+            Destinar já faz diferença. Saber qual projeto você ajuda pode aproximar ainda mais o impacto.
           </p>
           <a
-            href="https://2doe4.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#formulario"
             className="btn btn-primary"
             style={{ fontSize: '0.875rem', minHeight: 40, padding: '10px 20px' }}
           >
-            Seja um voluntário no Ecossistema 2doe4
+            Quero destinar
+          </a>
+          <a
+            href="#formulario"
+            className="btn btn-secondary"
+            style={{ fontSize: '0.875rem', minHeight: 40, padding: '10px 20px', marginTop: '10px' }}
+          >
+            Apresentar meu projeto
           </a>
         </div>
       </div>
@@ -69,7 +72,7 @@ export default function RodapeSection() {
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
         <div className="container" style={{ padding: 'var(--md) 0', textAlign: 'center' }}>
           <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.6)', margin: 0 }}>
-            Copyright © 2026 Hospital Pequeno Príncipe. Todos os direitos reservados.
+            BASEDOBEM — Transformando destinação em conexão, transparência e impacto.
           </p>
         </div>
       </div>
