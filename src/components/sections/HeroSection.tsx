@@ -70,29 +70,13 @@ export default function HeroSection() {
             </span>
           </h2>
 
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--sm)', padding: 0, margin: '0 0 var(--lg)' }}>
-            {[
-              'Não aumenta o valor do seu Imposto de Renda',
-              'Apoia projetos aprovados pelos Conselhos de Direitos',
-              'Aproxima o contribuinte do impacto gerado',
-              'Conta com apoio na orientação e no acompanhamento',
-            ].map((text) => (
-              <li
-                key={text}
-                className="hero-chip"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 10, alignSelf: 'flex-start',
-                  background: 'var(--branco)', borderRadius: 'var(--raio-pill)',
-                  padding: '8px 18px 8px 12px', fontWeight: 700, color: 'var(--azul-profundo)',
-                  boxShadow: '0 2px 8px rgba(2,78,134,0.08)',
-                }}
-              >
-                <CrownIcon />
-                {text}
-              </li>
-            ))}
-          </ul>
-
+          
+ <p className="hero-action" style={{ marginTop: 'var(--lg)', maxWidth: 650, fontWeight: 700, color: 'var(--azul-profundo)' }}>
+            A BASEDOBEM aproxima pessoas, empresas e entidades de projetos sociais aprovados pelos
+            Conselhos de Direitos da Criança e do Adolescente e da Pessoa Idosa. Por meio do CAC,
+            sua destinação pode ser vinculada a um projeto específico, com mais identificação,
+            rastreabilidade e possibilidade de acompanhamento.
+          </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--md)' }}>
             <a className="btn btn-secondary hero-action" href="#formulario">Quero fazer uma destinação</a>
             <a
@@ -102,15 +86,8 @@ export default function HeroSection() {
               Quero apresentar um projeto
             </a>
           </div>
-          <p className="hero-action" style={{ marginTop: 'var(--lg)', maxWidth: 650, fontWeight: 700, color: 'var(--azul-profundo)' }}>
-            A BASEDOBEM aproxima pessoas, empresas e entidades de projetos sociais aprovados pelos
-            Conselhos de Direitos da Criança e do Adolescente e da Pessoa Idosa. Por meio do CAC,
-            sua destinação pode ser vinculada a um projeto específico, com mais identificação,
-            rastreabilidade e possibilidade de acompanhamento.
-          </p>
-          <p className="hero-action" style={{ marginTop: 'var(--sm)', maxWidth: 650, color: 'var(--azul-profundo)' }}>
-            A lei permite destinar. A BASEDOBEM ajuda essa escolha a chegar mais perto do impacto.
-          </p>
+        
+          
         </div>
 
       </div>
