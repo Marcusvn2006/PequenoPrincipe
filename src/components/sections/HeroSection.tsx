@@ -122,16 +122,3 @@ export default function HeroSection() {
   )
 }
 
-function CrownIcon() {
-  return (
-    <svg viewBox="0 0 24 20" aria-hidden="true" style={{ width: 20, height: 17, flexShrink: 0 }}>
-      <path
-        d="M2 17 L4 6 L8.5 10.5 L12 3 L15.5 10.5 L20 6 L22 17 Z"
-        fill="#FFD200"
-        stroke="#E8BD00"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
