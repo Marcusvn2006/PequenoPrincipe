@@ -70,7 +70,7 @@ export default function HeroSection() {
             </span>
           </h2>
 
-          
+          <div className="hero-scrim">
  <p className="hero-action" style={{ marginTop: 'var(--lg)', maxWidth: 650, fontWeight: 700, color: 'var(--azul-profundo)' }}>
             A BASEDOBEM aproxima pessoas, empresas e entidades de projetos sociais aprovados pelos
             Conselhos de Direitos da Criança e do Adolescente e da Pessoa Idosa. Por meio do CAC,
@@ -86,7 +86,7 @@ export default function HeroSection() {
               Quero apresentar um projeto
             </a>
           </div>
-        
+          </div>
           
         </div>
 
@@ -99,6 +99,22 @@ export default function HeroSection() {
         @media (max-width: 767px) {
           .hero-bg {
             background: var(--amarelo) url('/assets/hero-bg-mobile.png') center top / cover no-repeat;
+          }
+          /* Scrim claro atrás do parágrafo e botões: garante 4,5:1 do texto azul sobre a imagem */
+          .hero-scrim { position: relative; isolation: isolate; }
+          .hero-scrim::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: -24px calc(50% - 50vw);
+            pointer-events: none;
+            background: linear-gradient(
+              to bottom,
+              transparent 0,
+              color-mix(in srgb, var(--ceu) var(--hero-scrim, 80%), transparent) 24px,
+              color-mix(in srgb, var(--ceu) var(--hero-scrim, 80%), transparent) calc(100% - 24px),
+              transparent 100%
+            );
           }
         }
         .hero-grid {
