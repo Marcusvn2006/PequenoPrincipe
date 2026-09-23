@@ -40,6 +40,7 @@ export default function HeroSection() {
             DESTINAÇÃO VINCULADA VIA CAC
           </h1>
 
+          <div className="hero-scrim">
           <h2
             className="hero-sub"
             style={{
@@ -70,7 +71,6 @@ export default function HeroSection() {
             </span>
           </h2>
 
-          <div className="hero-scrim">
  <p className="hero-action" style={{ marginTop: 'var(--lg)', maxWidth: 650, fontWeight: 700, color: 'var(--azul-profundo)' }}>
             A BASEDOBEM aproxima pessoas, empresas e entidades de projetos sociais aprovados pelos
             Conselhos de Direitos da Criança e do Adolescente e da Pessoa Idosa. Por meio do CAC,
@@ -100,13 +100,19 @@ export default function HeroSection() {
           .hero-bg {
             background: var(--amarelo) url('/assets/hero-bg-mobile.png') center top / cover no-repeat;
           }
-          /* Scrim claro atrás do parágrafo e botões: garante 4,5:1 do texto azul sobre a imagem */
-          .hero-scrim { position: relative; isolation: isolate; }
+        }
+        /* Até 1023px o layout é de uma coluna e o texto fica sobre a imagem (mobile ou desktop):
+           scrim claro atrás do título, parágrafo e botões garante 4,5:1 do texto azul */
+        @media (max-width: 1023px) {
+          /* isolation na seção: o z-index -1 do scrim fica acima da imagem e abaixo de todo o texto (h1 inclusive) */
+          .hero-bg { isolation: isolate; }
+          .hero-scrim { position: relative; }
           .hero-scrim::before {
             content: "";
             position: absolute;
             z-index: -1;
-            inset: -24px calc(50% - 50vw);
+            /* topo 16px acima do wrapper: a caixa de linha do título (line-height < font-size) e os acentos passam do bloco */
+            inset: -40px calc(50% - 50vw) -24px;
             pointer-events: none;
             background: linear-gradient(
               to bottom,
