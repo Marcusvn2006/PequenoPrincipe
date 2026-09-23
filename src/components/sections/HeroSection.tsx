@@ -98,7 +98,7 @@ export default function HeroSection() {
         }
         @media (max-width: 767px) {
           .hero-bg {
-            background: var(--amarelo) url('/assets/hero-bg-mobile.webp') center top / cover no-repeat;
+            background: var(--amarelo) url('/assets/hero-bg-mobile.png') center top / cover no-repeat;
           }
         }
         .hero-grid {

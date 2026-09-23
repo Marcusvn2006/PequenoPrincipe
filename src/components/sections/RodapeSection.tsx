@@ -9,7 +9,7 @@ export default function RodapeSection() {
       <div className="container rodape-grid" style={{ padding: 'var(--xxl) 0 var(--lg)' }}>
         <div>
           <div style={{ background: 'var(--branco)', borderRadius: 'var(--raio-md)', padding: '8px 16px', display: 'inline-block', marginBottom: 'var(--md)' }}>
-            <img src="/assets/logo-hpp.webp" alt="Complexo Pequeno Príncipe" style={{ height: 36, width: 'auto' }} />
+            <img src="/assets/logo-basedobem.webp" alt="BASEDOBEM" style={{ height: 36, width: 'auto' }} />
           </div>
           <p style={{ color: 'rgba(255,255,255,0.75)', maxWidth: 280, margin: 0 }}>
             A BASEDOBEM conecta contribuintes, empresas, entidades e canais para fortalecer projetos

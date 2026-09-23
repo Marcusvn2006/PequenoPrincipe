@@ -154,8 +154,8 @@ export default function Navbar() {
 
         <div className="navbar-main" style={{ padding: scrolled ? '10px 0' : '16px 0' }}>
           <div className="container">
-            <a href="#inicio" aria-label="Pequeno Príncipe — início" style={{ display: 'flex', flexShrink: 0 }}>
-              <img src="/assets/logo-hpp.webp" alt="Complexo Pequeno Príncipe" style={{ height: 44, width: 'auto' }} />
+            <a href="#inicio" aria-label="BASEDOBEM — início" style={{ display: 'flex', flexShrink: 0 }}>
+              <img src="/assets/logo-basedobem.webp" alt="BASEDOBEM" style={{ height: 44, width: 'auto' }} />
             </a>
 
             <button
@@ -188,7 +188,7 @@ export default function Navbar() {
               <a href="#faq">Dúvidas</a>
               <a href="#">Privacidade</a>
               <a className="nav-cta" href="#formulario">
-                <CrownIcon /> Quero destinar
+                Quero destinar
               </a>
             </nav>
           </div>
@@ -219,20 +219,6 @@ function PhoneIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true" style={{ flexShrink: 0 }}>
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.4 2.1L8 10a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.7 2Z" />
-    </svg>
-  )
-}
-
-function CrownIcon() {
-  return (
-    <svg viewBox="0 0 24 20" aria-hidden="true" style={{ width: 16, height: 14, flexShrink: 0 }}>
-      <path
-        d="M2 17 L4 6 L8.5 10.5 L12 3 L15.5 10.5 L20 6 L22 17 Z"
-        fill="var(--azul-profundo)"
-        stroke="var(--azul-profundo)"
-        strokeWidth="0.5"
-        strokeLinejoin="round"
-      />
     </svg>
   )
 }
