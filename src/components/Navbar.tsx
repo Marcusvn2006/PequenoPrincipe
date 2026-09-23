@@ -84,7 +84,7 @@ export default function Navbar() {
         }
         .navbar-links a:not(.nav-cta):hover { background: var(--ceu); color: var(--azul); }
         .nav-cta {
-          display: inline-flex; align-items: center; gap: 8px;
+          display: inline-flex; align-items: center;
           background: var(--amarelo) !important;
           color: var(--azul-profundo) !important;
           padding: 11px 20px !important;
