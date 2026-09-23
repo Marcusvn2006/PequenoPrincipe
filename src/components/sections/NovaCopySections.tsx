@@ -619,7 +619,7 @@ function GlobalSectionStyles() {
         font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; margin-bottom: var(--md);
       }
       .channel-card p { flex: 1; }
-      .channel-card .btn { margin-top: var(--md); font-size: .9rem; min-height: 42px; padding: 9px 18px; }
+      .channel-card .btn { margin-top: var(--md); min-height: 42px; padding: 9px 18px; }
       .impact-panel {
         max-width: 900px; border-radius: var(--raio-lg); background: var(--branco);
         padding: var(--xl); box-shadow: 0 14px 36px rgba(2,78,134,.14);

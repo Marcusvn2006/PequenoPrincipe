@@ -78,7 +78,8 @@ button { font-family: var(--font-body); }
   transition: transform 200ms, box-shadow 200ms, filter 200ms;
 }
 .btn:hover { transform: translateY(-2px); filter: brightness(0.94); }
-.btn-primary { background: var(--accent); color: #fff; }
+/* 19px em negrito (800) = texto grande pela WCAG (>= 14pt = 18,667px bold): branco sobre o rosa (3,55:1) exige 3:1 */
+.btn-primary { background: var(--accent); color: #fff; font-size: 19px; }
 .btn-primary:hover { box-shadow: 0 8px 20px rgba(233, 78, 138, 0.35); }
 .btn-secondary { background: var(--azul); color: #fff; }
 .btn-secondary:hover { box-shadow: 0 8px 20px rgba(0, 103, 177, 0.3); }

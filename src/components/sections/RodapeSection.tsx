@@ -55,14 +55,14 @@ export default function RodapeSection() {
           <a
             href="#formulario"
             className="btn btn-primary"
-            style={{ fontSize: '0.875rem', minHeight: 40, padding: '10px 20px' }}
+            style={{ minHeight: 40, padding: '10px 20px' }}
           >
             Quero destinar
           </a>
           <a
             href="#formulario"
             className="btn btn-secondary"
-            style={{ fontSize: '0.875rem', minHeight: 40, padding: '10px 20px', marginTop: '10px' }}
+            style={{ minHeight: 40, padding: '10px 20px', marginTop: '10px' }}
           >
             Apresentar meu projeto
           </a>
