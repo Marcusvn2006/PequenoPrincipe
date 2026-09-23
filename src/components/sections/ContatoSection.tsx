@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import CrownBadge from '../CrownBadge'
 
 export default function ContatoSection() {
   return (
@@ -43,7 +42,6 @@ export default function ContatoSection() {
         </div>
 
         <div className="reveal contato-foto" style={{ position: 'relative' }}>
-          <CrownBadge top={6} left={-16} />
           <img
             src="/assets/foto-contato.webp"
             alt="Pessoa demonstrando cuidado e acolhimento"

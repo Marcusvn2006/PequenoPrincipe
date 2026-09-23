@@ -31,3 +31,8 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Material fora do site (não versionar)
+design-source/
+docs/superpowers/
+.claude/
