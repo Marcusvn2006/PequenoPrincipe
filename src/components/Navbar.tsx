@@ -186,7 +186,6 @@ export default function Navbar() {
               <a href="#empresas">Para empresas</a>
               <a href="#canais">Nossos canais</a>
               <a href="#faq">Dúvidas</a>
-              <a href="#">Privacidade</a>
               <a className="nav-cta" href="#formulario">
                 Quero destinar
               </a>

@@ -29,7 +29,6 @@ export default function RodapeSection() {
             <li><a href="#empresas" className="rodape-link">Empresas</a></li>
             <li><a href="#canais" className="rodape-link">Nossos canais</a></li>
             <li><a href="#faq" className="rodape-link">Perguntas frequentes</a></li>
-            <li><a href="#" className="rodape-link">Privacidade</a></li>
           </ul>
         </div>
 
