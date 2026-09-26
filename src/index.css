@@ -142,6 +142,101 @@ button { font-family: var(--font-body); }
 
 .eco-seta { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.6; }
 
+/* Item na navbar (desktop) */
+.eco-menu { position: relative; }
+.eco-gatilho {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: inherit;
+  color: var(--azul-profundo);
+  padding: 10px 8px;
+  border: none;
+  border-radius: var(--raio-pill);
+  background: none;
+  cursor: pointer;
+  /* Medido: cabe com 52,5px de folga em 1181px. O nowrap garante que o flex da navbar
+     não o esprema em duas linhas. */
+  white-space: nowrap;
+  transition: background 150ms, color 150ms;
+}
+.eco-gatilho:hover,
+.eco-gatilho[aria-expanded="true"] { background: var(--ceu); color: var(--azul); }
+.eco-chevron { width: 14px; height: 14px; transition: transform 200ms; }
+.eco-gatilho[aria-expanded="true"] .eco-chevron { transform: rotate(180deg); }
+
+.eco-painel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 20rem;
+  background: var(--branco);
+  border-radius: var(--raio-lg);
+  box-shadow: 0 16px 32px rgba(2, 78, 134, 0.18);
+  padding: var(--sm) 0;
+  z-index: 110;
+}
+.eco-painel-topo {
+  padding: 4px var(--md) 10px;
+  border-bottom: 1px solid var(--ceu);
+}
+.eco-painel-marca,
+.eco-mobile-titulo {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--azul-profundo);
+}
+.eco-painel-legenda { margin: 2px 0 0; font-size: 0.8125rem; color: var(--tinta); }
+.eco-lista { list-style: none; margin: 0; padding: 4px 0 0; }
+.eco-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px var(--md);
+  text-decoration: none;
+  color: var(--tinta);
+  transition: background 150ms;
+}
+a.eco-item:hover { background: var(--ceu); }
+a.eco-item:focus-visible { outline-offset: -2px; border-radius: 0; }
+.eco-item--atual { background: var(--ceu); border-left: 3px solid var(--azul); padding-left: 13px; }
+.eco-item .eco-ponto { margin-top: 7px; }
+.eco-item-texto { min-width: 0; flex: 1; }
+.eco-item-nome {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--azul-profundo);
+}
+.eco-item-descricao { margin: 2px 0 0; font-size: 0.8125rem; line-height: 1.4; color: var(--tinta); }
+
+/* Lista no menu hambúrguer: já vem aberta, sem dropdown. 1180px é o corte da Navbar. */
+.eco-mobile { display: none; }
+.eco-mobile-titulo { padding: 0 var(--md) 4px; }
+.eco-mobile .eco-item { align-items: center; padding: 12px var(--md); }
+.eco-mobile .eco-item--atual { padding-left: 13px; }
+.eco-mobile .eco-seta { margin-left: auto; }
+@media (max-width: 1180px) {
+  .eco-menu { display: none; }
+  .eco-mobile {
+    display: block;
+    margin-top: var(--sm);
+    padding-top: var(--md);
+    border-top: 1px solid var(--ceu);
+  }
+}
+
 /* Bloco do rodapé (sobre o --azul-profundo) */
 .eco-rodape { border-top: 1px solid rgba(255, 255, 255, 0.12); }
 .eco-rodape-marca {
@@ -226,5 +321,5 @@ select:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1 !important; transform: none !important; }
-  .eco-cartao { transition: none; }
+  .eco-chevron, .eco-gatilho, .eco-item, .eco-cartao { transition: none; }
 }

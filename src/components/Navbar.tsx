@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import EcossistemaMenu, { EcossistemaMenuMobile } from './EcossistemaMenu'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -73,7 +74,7 @@ export default function Navbar() {
           gap: 4px;
           margin-left: auto;
         }
-        .navbar-links a:not(.nav-cta) {
+        .navbar-links > a:not(.nav-cta) {
           font-weight: 700;
           font-size: 0.8125rem;
           text-decoration: none;
@@ -82,7 +83,7 @@ export default function Navbar() {
           border-radius: var(--raio-pill);
           transition: background 150ms, color 150ms;
         }
-        .navbar-links a:not(.nav-cta):hover { background: var(--ceu); color: var(--azul); }
+        .navbar-links > a:not(.nav-cta):hover { background: var(--ceu); color: var(--azul); }
         .nav-cta {
           display: inline-flex; align-items: center;
           background: var(--amarelo) !important;
@@ -112,9 +113,16 @@ export default function Navbar() {
             gap: var(--sm) !important;
             box-shadow: 0 16px 32px rgba(2,78,134,0.15);
             z-index: 100;
+            /* Com a lista do ecossistema o menu passa de 770px e o header é sticky: sem
+               isto, em telas baixas o fim do menu fica abaixo da tela, inalcançável.
+               60px = topo do menu (16px de padding + 44px do logo). */
+            max-height: calc(100vh - 60px);
+            max-height: calc(100dvh - 60px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
           }
           .navbar-links.aberto { display: flex; }
-          .navbar-links a:not(.nav-cta) { padding: 14px var(--md); }
+          .navbar-links > a:not(.nav-cta) { padding: 14px var(--md); }
           .nav-cta { margin-left: 0; justify-content: center; }
         }
       `}</style>
@@ -186,9 +194,11 @@ export default function Navbar() {
               <a href="#empresas">Para empresas</a>
               <a href="#canais">Nossos canais</a>
               <a href="#faq">Dúvidas</a>
+              <EcossistemaMenu />
               <a className="nav-cta" href="#formulario">
                 Quero destinar
               </a>
+              <EcossistemaMenuMobile />
             </nav>
           </div>
         </div>
