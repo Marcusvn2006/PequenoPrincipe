@@ -88,6 +88,8 @@ export default function RodapeSection() {
           transition: color 150ms;
         }
         .rodape-link:hover { color: var(--amarelo); }
+        /* O anel global (--azul) some aqui: 1,47:1 sobre o --azul-profundo. O amarelo dá 5,94:1. */
+        #rodape a:focus-visible { outline-color: var(--amarelo); }
         .rodape-grid {
           display: grid;
           grid-template-columns: 1.4fr 1fr 1fr 1fr;
