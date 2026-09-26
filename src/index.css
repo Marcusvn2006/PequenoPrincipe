@@ -16,6 +16,8 @@
   --branco: #FFFFFF;
   --borda-campo: #C9D6E2;
   --accent: var(--rosa);
+  /* Rosa escurecido só para texto de erro: #E94E8A dá 3,55:1 no branco; este dá 5,24:1. */
+  --rosa-erro: #D01A62;
 
   --font-display: "Baloo 2", system-ui, sans-serif;
   --font-body: "Nunito Sans", system-ui, sans-serif;

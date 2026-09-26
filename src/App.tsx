@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -51,6 +51,57 @@ export default function App() {
     },
     { scope: appRef }
   )
+
+  // Deep links (/#faq): o navegador resolve o hash com o #root ainda vazio e fica no
+  // topo. Depois da montagem e das fontes (que mudam a altura da página), recalcula os
+  // gatilhos do ScrollTrigger e salta até o alvo; o salto dispara o reveal das seções.
+  //
+  // O header é sticky (ocupa espaço no fluxo) e encolhe ao sair do topo, com transição
+  // de 200ms: tudo abaixo sobe até 52px depois do salto. Por isso realinha quando ele
+  // assenta, desde que o visitante não tenha rolado nesse meio-tempo.
+  useEffect(() => {
+    let cancelado = false
+    let timer = 0
+    const alvoDoHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+      return id ? document.getElementById(id) : null
+    }
+    const realinharDepoisDoHeader = (alvo: HTMLElement) => {
+      const y = window.scrollY
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        if (!cancelado && Math.abs(window.scrollY - y) < 2) {
+          alvo.scrollIntoView({ behavior: 'instant', block: 'start' })
+        }
+      }, 250)
+    }
+
+    document.fonts.ready.then(() => requestAnimationFrame(() => {
+      const alvo = alvoDoHash()
+      if (cancelado || !alvo) return
+      ScrollTrigger.refresh()
+      alvo.scrollIntoView({ behavior: 'instant', block: 'start' })
+      realinharDepoisDoHeader(alvo)
+    }))
+
+    // Com a página aberta (hash digitado na barra, voltar/avançar, links do menu): 'auto'
+    // segue o scroll-behavior do CSS, que já respeita prefers-reduced-motion.
+    const aoMudarHash = () => {
+      const alvo = alvoDoHash()
+      if (!alvo) return
+      alvo.scrollIntoView({ behavior: 'auto', block: 'start' })
+      if ('onscrollend' in window) {
+        window.addEventListener('scrollend', () => realinharDepoisDoHeader(alvo), { once: true })
+      }
+    }
+    window.addEventListener('hashchange', aoMudarHash)
+
+    return () => {
+      cancelado = true
+      window.clearTimeout(timer)
+      window.removeEventListener('hashchange', aoMudarHash)
+    }
+  }, [])
 
   return (
     <div ref={appRef}>
