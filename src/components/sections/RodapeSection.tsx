@@ -1,3 +1,5 @@
+import EcossistemaRodape from '../EcossistemaRodape'
+
 export default function RodapeSection() {
   return (
     <footer
@@ -6,7 +8,7 @@ export default function RodapeSection() {
     >
       <div style={{ height: 4, background: 'linear-gradient(90deg, var(--amarelo) 0%, var(--rosa) 50%, var(--azul) 100%)' }} />
 
-      <div className="container rodape-grid" style={{ padding: 'var(--xxl) 0 var(--lg)' }}>
+      <div className="container rodape-grid" style={{ paddingTop: 'var(--xxl)', paddingBottom: 'var(--lg)' }}>
         <div>
           <div style={{ background: 'var(--branco)', borderRadius: 'var(--raio-md)', padding: '8px 16px', display: 'inline-block', marginBottom: 'var(--md)' }}>
             <img src="/assets/logo-basedobem.webp" alt="BASEDOBEM" style={{ height: 36, width: 'auto' }} />
@@ -68,8 +70,10 @@ export default function RodapeSection() {
         </div>
       </div>
 
+      <EcossistemaRodape />
+
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
-        <div className="container" style={{ padding: 'var(--md) 0', textAlign: 'center' }}>
+        <div className="container" style={{ paddingTop: 'var(--md)', paddingBottom: 'var(--md)', textAlign: 'center' }}>
           <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.6)', margin: 0 }}>
             BASEDOBEM — Transformando destinação em conexão, transparência e impacto.
           </p>
@@ -84,6 +88,8 @@ export default function RodapeSection() {
           transition: color 150ms;
         }
         .rodape-link:hover { color: var(--amarelo); }
+        /* O anel global (--azul) some aqui: 1,47:1 sobre o --azul-profundo. O amarelo dá 5,94:1. */
+        #rodape a:focus-visible { outline-color: var(--amarelo); }
         .rodape-grid {
           display: grid;
           grid-template-columns: 1.4fr 1fr 1fr 1fr;
