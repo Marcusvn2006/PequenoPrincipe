@@ -1,3 +1,5 @@
+import EcossistemaRodape from '../EcossistemaRodape'
+
 export default function RodapeSection() {
   return (
     <footer
@@ -67,6 +69,8 @@ export default function RodapeSection() {
           </a>
         </div>
       </div>
+
+      <EcossistemaRodape />
 
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
         <div className="container" style={{ paddingTop: 'var(--md)', paddingBottom: 'var(--md)', textAlign: 'center' }}>
