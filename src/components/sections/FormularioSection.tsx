@@ -227,7 +227,7 @@ export default function FormularioSection() {
 
           <div className="form-submit-row">
             <p>
-              Usaremos seus dados apenas para responder a esta solicitação e orientar você
+              Seus dados serão usados apenas para responder a esta solicitação e orientar você
               sobre a destinação.
             </p>
             <button type="submit" className="btn btn-primary" disabled={enviando}>
@@ -266,7 +266,7 @@ export default function FormularioSection() {
           font-size: .75rem; font-weight: 800; letter-spacing: .06em;
           text-transform: uppercase; color: var(--azul);
         }
-        .field-error { color: var(--accent); font-size: .8125rem; font-weight: 700; margin: 0; }
+        .field-error { color: var(--rosa-erro); font-size: .8125rem; font-weight: 700; margin: 0; }
         .form-message { grid-column: 1 / -1; }
         .form-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
         .form-submit-row {
