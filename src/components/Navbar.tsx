@@ -6,6 +6,43 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+  const burgerRef = useRef<HTMLButtonElement>(null)
+  const painelRef = useRef<HTMLElement>(null)
+
+  // Menu aberto: o Tab circula entre o botão e os itens do painel, sem escapar para a
+  // página por trás. Esc fecha e devolve o foco ao botão. Se a janela crescer até o
+  // layout de desktop com o menu aberto, o botão some e a trava se desliga.
+  useEffect(() => {
+    if (!menuOpen) return
+    const aoTeclar = (e: KeyboardEvent) => {
+      const botao = burgerRef.current
+      const painel = painelRef.current
+      if (!botao || !painel || botao.getClientRects().length === 0) return
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        botao.focus()
+        return
+      }
+      if (e.key !== 'Tab') return
+      const itens = [botao, ...painel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')]
+        .filter((el) => el.getClientRects().length > 0)
+      const primeiro = itens[0]
+      const ultimo = itens[itens.length - 1]
+      const atual = document.activeElement as HTMLElement | null
+      if (!atual || !itens.includes(atual)) {
+        e.preventDefault()
+        ;(e.shiftKey ? ultimo : primeiro).focus()
+      } else if (e.shiftKey && atual === primeiro) {
+        e.preventDefault()
+        ultimo.focus()
+      } else if (!e.shiftKey && atual === ultimo) {
+        e.preventDefault()
+        primeiro.focus()
+      }
+    }
+    document.addEventListener('keydown', aoTeclar)
+    return () => document.removeEventListener('keydown', aoTeclar)
+  }, [menuOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -167,6 +204,7 @@ export default function Navbar() {
             </a>
 
             <button
+              ref={burgerRef}
               className="nav-burger"
               onClick={() => setMenuOpen(o => !o)}
               aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
@@ -183,6 +221,7 @@ export default function Navbar() {
             </button>
 
             <nav
+              ref={painelRef}
               className={`navbar-links${menuOpen ? ' aberto' : ''}`}
               aria-label="Navegação principal"
               onClick={(e) => { if ((e.target as HTMLElement).closest('a')) setMenuOpen(false) }}
