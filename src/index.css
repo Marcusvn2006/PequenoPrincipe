@@ -295,7 +295,8 @@ a.eco-cartao:hover .eco-seta { opacity: 1; }
 }
 
 /* ── Reveal (estado inicial, GSAP anima para visível) ───────── */
-.reveal {
+/* Só esconde depois que App.tsx registrou todos os gatilhos e marcou a raiz. */
+.reveal-ativo .reveal {
   opacity: 0;
   transform: translateY(24px);
 }
