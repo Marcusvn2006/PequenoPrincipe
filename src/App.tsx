@@ -34,7 +34,7 @@ export default function App() {
   // montagem lançar, o catch mostra tudo em vez de deixar o erro desmontar a página.
   // Com prefers-reduced-motion não há classe nem gatilho: nada roda à toa.
   useGSAP(
-    () => {
+    (_, contextSafe) => {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
       const raiz = document.documentElement
@@ -46,6 +46,12 @@ export default function App() {
         tween?.kill()
         gsap.set(el, { opacity: 1, y: 0 })
       }
+
+      // Foco pelo teclado num bloco ainda escondido: mostra na hora, sem fade.
+      const aoFocar = contextSafe!((e: FocusEvent) => {
+        const bloco = (e.target as Element).closest?.('.reveal')
+        if (bloco && pendentes.has(bloco)) revelar(bloco)
+      })
 
       try {
         gsap.utils.toArray<Element>('.reveal').forEach((el) => {
@@ -72,12 +78,14 @@ export default function App() {
           }
         })
         raiz.classList.add('reveal-ativo')
+        document.addEventListener('focusin', aoFocar)
       } catch (erro) {
         console.error('[reveal] Falha ao montar a animação de rolagem; todo o conteúdo foi exibido sem animação.', erro)
         pendentes.forEach((_, el) => revelar(el))
       }
 
       return () => {
+        document.removeEventListener('focusin', aoFocar)
         raiz.classList.remove('reveal-ativo')
       }
     },
