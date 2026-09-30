@@ -29,25 +29,57 @@ gsap.registerPlugin(ScrollTrigger)
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null)
 
+  // Reveal ao rolar. O conteúdo nasce visível: o CSS só esconde .reveal sob
+  // html.reveal-ativo, e essa classe entra depois do último gatilho registrado. Se a
+  // montagem lançar, o catch mostra tudo em vez de deixar o erro desmontar a página.
+  // Com prefers-reduced-motion não há classe nem gatilho: nada roda à toa.
   useGSAP(
     () => {
-      gsap.utils.toArray<Element>('.reveal').forEach((el) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.65,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 88%',
-              toggleActions: 'play none none none',
-            },
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+      const raiz = document.documentElement
+      const pendentes = new Map<Element, gsap.core.Tween>()
+      const revelar = (el: Element) => {
+        const tween = pendentes.get(el)
+        pendentes.delete(el)
+        tween?.scrollTrigger?.kill()
+        tween?.kill()
+        gsap.set(el, { opacity: 1, y: 0 })
+      }
+
+      try {
+        gsap.utils.toArray<Element>('.reveal').forEach((el) => {
+          try {
+            const tween = gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: 'power2.out',
+              // Sem isto o ScrollTrigger renderiza o tween já na criação, antes de
+              // reveal-ativo existir, e grava "visível" como ponto de partida: não anima.
+              immediateRender: false,
+              onComplete: () => { pendentes.delete(el) },
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 88%',
+                toggleActions: 'play none none none',
+              },
+            })
+            pendentes.set(el, tween)
+          } catch (erro) {
+            console.error('[reveal] Falha ao registrar um bloco; ele foi exibido sem animação.', el, erro)
+            revelar(el)
           }
-        )
-      })
+        })
+        raiz.classList.add('reveal-ativo')
+      } catch (erro) {
+        console.error('[reveal] Falha ao montar a animação de rolagem; todo o conteúdo foi exibido sem animação.', erro)
+        pendentes.forEach((_, el) => revelar(el))
+      }
+
+      return () => {
+        raiz.classList.remove('reveal-ativo')
+      }
     },
     { scope: appRef }
   )
