@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import EcossistemaMenu, { EcossistemaMenuMobile } from './EcossistemaMenu'
+import { contatoPrincipal } from '../data/contato'
+
+// Faixa do topo: um contato de cada tipo, do mesmo arquivo do rodapé.
+const email = contatoPrincipal('email')
+const telefone = contatoPrincipal('telefone')
+const whatsapp = contatoPrincipal('whatsapp')
 
 // conteudoFalhou: o ErrorBoundary do <main> trocou as seções pelo fallback.
 // Aí toda âncora (#como-funciona, #formulario, #inicio) aponta para uma seção
@@ -199,17 +205,23 @@ export default function Navbar({ conteudoFalhou = false }: { conteudoFalhou?: bo
         >
           <div className="container">
             <div className="navbar-top-linhas">
-              <a href="mailto:contato@2doe4.com.br">
-                <EmailIcon /> contato@2doe4.com.br
-              </a>
-              <a href="tel:+551441033444">
-                <PhoneIcon /> (14) 4103-3444
-              </a>
+              {email && (
+                <a href={email.href}>
+                  <EmailIcon /> {email.rotulo}
+                </a>
+              )}
+              {telefone && (
+                <a href={telefone.href}>
+                  <PhoneIcon /> {telefone.rotulo}
+                </a>
+              )}
             </div>
             <div className="navbar-top-social">
-              <a href="https://wa.me/5514988388888" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
-                <WhatsIcon size={14} color="#fff" />
-              </a>
+              {whatsapp && (
+                <a href={whatsapp.href} aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+                  <WhatsIcon size={14} color="#fff" />
+                </a>
+              )}
             </div>
           </div>
         </div>
