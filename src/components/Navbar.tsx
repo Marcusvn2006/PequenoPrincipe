@@ -49,21 +49,40 @@ export default function Navbar({ conteudoFalhou = false }: { conteudoFalhou?: bo
         primeiro.focus()
       }
     }
-    // Clique fora do painel fecha. Só existe com o menu aberto. Na captura do
-    // document: o clique que abre já passou dessa fase quando o listener entra,
-    // então não fecha o que acabou de abrir. Ignora o próprio botão: o onClick
-    // dele já fecha, e os dois juntos fechavam e reabriam (o menu piscava).
-    // O clique segue para o alvo: nada é consumido.
+    // Clique fora do painel fecha. Só existe com o menu aberto. Mesmo comportamento
+    // do GptDoaBem: quem toca fora quis fechar o menu, não acionar o que está
+    // embaixo — na faixa abaixo do painel passam CTAs (medido a 390x1100: o toque
+    // que fechava o menu levava ao #formulario). Lá o clique é engolido. Na barra
+    // (logo, espaço vazio) o menu fecha e o clique segue: ela fica à vista.
+    // Botão fora da tela = layout desktop (a janela cresceu com o menu aberto):
+    // não há painel, o clique segue.
+    // Ignora o próprio botão: o onClick dele já fecha, e os dois juntos fechavam e
+    // reabriam (o menu piscava). Na captura do window: o clique que abre já passou
+    // dessa fase quando o listener entra, então não fecha o que acabou de abrir.
+    const lugar = (alvo: Node) =>
+      painelRef.current?.contains(alvo) || burgerRef.current?.contains(alvo) ? null
+        : navRef.current?.contains(alvo) || !burgerRef.current?.getClientRects().length ? 'barra'
+          : 'faixa'
+    // O foco vem no mousedown, antes do click: sem isto o campo embaixo o recebe
+    // (e no celular abre o teclado).
+    const aoPressionar = (e: MouseEvent) => {
+      if (lugar(e.target as Node) === 'faixa') e.preventDefault()
+    }
     const aoClicarFora = (e: MouseEvent) => {
-      const alvo = e.target as Node
-      if (burgerRef.current?.contains(alvo) || painelRef.current?.contains(alvo)) return
+      const onde = lugar(e.target as Node)
+      if (!onde) return
       setMenuOpen(false)
+      if (onde === 'barra') return
+      e.preventDefault()
+      e.stopPropagation()
     }
     document.addEventListener('keydown', aoTeclar)
-    document.addEventListener('click', aoClicarFora, true)
+    window.addEventListener('mousedown', aoPressionar, true)
+    window.addEventListener('click', aoClicarFora, true)
     return () => {
       document.removeEventListener('keydown', aoTeclar)
-      document.removeEventListener('click', aoClicarFora, true)
+      window.removeEventListener('mousedown', aoPressionar, true)
+      window.removeEventListener('click', aoClicarFora, true)
     }
   }, [menuOpen])
 
