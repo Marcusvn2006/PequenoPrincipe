@@ -43,8 +43,22 @@ export default function Navbar({ conteudoFalhou = false }: { conteudoFalhou?: bo
         primeiro.focus()
       }
     }
+    // Clique fora do painel fecha. Só existe com o menu aberto. Na captura do
+    // document: o clique que abre já passou dessa fase quando o listener entra,
+    // então não fecha o que acabou de abrir. Ignora o próprio botão: o onClick
+    // dele já fecha, e os dois juntos fechavam e reabriam (o menu piscava).
+    // O clique segue para o alvo: nada é consumido.
+    const aoClicarFora = (e: MouseEvent) => {
+      const alvo = e.target as Node
+      if (burgerRef.current?.contains(alvo) || painelRef.current?.contains(alvo)) return
+      setMenuOpen(false)
+    }
     document.addEventListener('keydown', aoTeclar)
-    return () => document.removeEventListener('keydown', aoTeclar)
+    document.addEventListener('click', aoClicarFora, true)
+    return () => {
+      document.removeEventListener('keydown', aoTeclar)
+      document.removeEventListener('click', aoClicarFora, true)
+    }
   }, [menuOpen])
 
   useEffect(() => {
