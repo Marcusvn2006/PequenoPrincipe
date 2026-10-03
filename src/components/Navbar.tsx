@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import EcossistemaMenu, { EcossistemaMenuMobile } from './EcossistemaMenu'
 
-export default function Navbar() {
+// conteudoFalhou: o ErrorBoundary do <main> trocou as seções pelo fallback.
+// Aí toda âncora (#como-funciona, #formulario, #inicio) aponta para uma seção
+// que não existe e o clique não faz nada; elas somem e fica só o ecossistema.
+export default function Navbar({ conteudoFalhou = false }: { conteudoFalhou?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
@@ -199,7 +202,8 @@ export default function Navbar() {
 
         <div className="navbar-main" style={{ padding: scrolled ? '10px 0' : '16px 0' }}>
           <div className="container">
-            <a href="#inicio" aria-label="BASEDOBEM — início" style={{ display: 'flex', flexShrink: 0 }}>
+            {/* Sem o hero, #inicio não existe; #top leva ao topo mesmo assim. */}
+            <a href={conteudoFalhou ? '#top' : '#inicio'} aria-label="BASEDOBEM — início" style={{ display: 'flex', flexShrink: 0 }}>
               <img src="/assets/logo-basedobem.webp" alt="BASEDOBEM" style={{ height: 44, width: 'auto' }} />
             </a>
 
@@ -226,17 +230,21 @@ export default function Navbar() {
               aria-label="Navegação principal"
               onClick={(e) => { if ((e.target as HTMLElement).closest('a')) setMenuOpen(false) }}
             >
-              <a href="#como-funciona">Como funciona</a>
-              <a href="#destinacao-vinculada">Destinação vinculada</a>
-              <a href="#fundos">Fundos</a>
-              <a href="#entidades">Apresente seu projeto</a>
-              <a href="#empresas">Para empresas</a>
-              <a href="#canais">Nossos canais</a>
-              <a href="#faq">Dúvidas</a>
+              {!conteudoFalhou && <>
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#destinacao-vinculada">Destinação vinculada</a>
+                <a href="#fundos">Fundos</a>
+                <a href="#entidades">Apresente seu projeto</a>
+                <a href="#empresas">Para empresas</a>
+                <a href="#canais">Nossos canais</a>
+                <a href="#faq">Dúvidas</a>
+              </>}
               <EcossistemaMenu />
-              <a className="nav-cta" href="#formulario">
-                Quero destinar
-              </a>
+              {!conteudoFalhou && (
+                <a className="nav-cta" href="#formulario">
+                  Quero destinar
+                </a>
+              )}
               <EcossistemaMenuMobile />
             </nav>
           </div>

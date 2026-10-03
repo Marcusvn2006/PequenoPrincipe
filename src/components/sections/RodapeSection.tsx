@@ -1,6 +1,10 @@
 import EcossistemaRodape from '../EcossistemaRodape'
+import { contatos } from '../../data/contato'
 
-export default function RodapeSection() {
+// conteudoFalhou: o ErrorBoundary do <main> trocou as seções pelo fallback.
+// Aí os links rápidos e os botões "#formulario" levariam a nada e saem; o
+// contato fica.
+export default function RodapeSection({ conteudoFalhou = false }: { conteudoFalhou?: boolean }) {
   return (
     <footer
       id="rodape"
@@ -19,7 +23,7 @@ export default function RodapeSection() {
           </p>
         </div>
 
-        <div>
+        {!conteudoFalhou && <div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: 'var(--md)', color: 'var(--amarelo)' }}>
             Links rápidos
           </h3>
@@ -32,21 +36,22 @@ export default function RodapeSection() {
             <li><a href="#canais" className="rodape-link">Nossos canais</a></li>
             <li><a href="#faq" className="rodape-link">Perguntas frequentes</a></li>
           </ul>
-        </div>
+        </div>}
 
         <div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: 'var(--md)', color: 'var(--amarelo)' }}>
             Contato
           </h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <li><a href="mailto:contato@2doe4.com.br" className="rodape-link">contato@2doe4.com.br</a></li>
-            <li><a href="mailto:qg@2doe4.com.br" className="rodape-link">qg@2doe4.com.br</a></li>
-            <li><a href="tel:+551441033444" className="rodape-link">(14) 4103-3444</a></li>
-            <li><a href="https://wa.me/5514988388888" target="_blank" rel="noopener noreferrer" className="rodape-link">WhatsApp: (14) 98838-8888</a></li>
+            {contatos.map(({ rotulo, href, externo }) => (
+              <li key={href}>
+                <a href={href} className="rodape-link" {...(externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{rotulo}</a>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div>
+        {!conteudoFalhou && <div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: 'var(--md)', color: 'var(--amarelo)' }}>
             Participe
           </h3>
@@ -67,7 +72,7 @@ export default function RodapeSection() {
           >
             Apresentar meu projeto
           </a>
-        </div>
+        </div>}
       </div>
 
       <EcossistemaRodape />

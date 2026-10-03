@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import Navbar from './components/Navbar'
+import ErrorBoundary from './components/ErrorBoundary'
 import WaveDivider from './components/WaveDivider'
 import HeroSection from './components/sections/HeroSection'
 import FormularioSection from './components/sections/FormularioSection'
@@ -28,6 +29,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null)
+  // O fallback no lugar das seções: menu e rodapé tiram as âncoras para elas.
+  const [conteudoFalhou, setConteudoFalhou] = useState(false)
 
   // Reveal ao rolar. O conteúdo nasce visível: o CSS só esconde .reveal sob
   // html.reveal-ativo, e essa classe entra depois do último gatilho registrado. Se a
@@ -145,8 +148,11 @@ export default function App() {
 
   return (
     <div ref={appRef}>
-      <Navbar />
+      <Navbar conteudoFalhou={conteudoFalhou} />
       <main>
+        {/* Um bloco que quebra (a timeline GSAP do hero, por exemplo) não leva a
+            página junto: menu e rodapé ficam, e o fallback dá saída ao visitante. */}
+        <ErrorBoundary onErro={() => setConteudoFalhou(true)}>
         <HeroSection />
 
         <WaveDivider
@@ -206,8 +212,9 @@ export default function App() {
         <ContatoSection />
 
         <FaqSection />
+        </ErrorBoundary>
       </main>
-      <RodapeSection />
+      <RodapeSection conteudoFalhou={conteudoFalhou} />
     </div>
   )
 }
